@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Artist Portfolio</title>
+<meta name="description" content="Selected works by Your Name.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F5F1;
+    --ink:#14130F;
+    --ink-soft:#4A4842;
+    --accent:#33415C;
+    --line:#D9D5C9;
+    --clay:#B5654A;
+    --sage:#7C8B6F;
+    --ochre:#C9A227;
+    --dusty:#5C7A99;
+    --plum:#6B4C6E;
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Archivo', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  ::selection{background:var(--accent); color:var(--paper);}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  img, svg{display:block; max-width:100%;}
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(246,245,241,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:76px;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.15rem;
+    letter-spacing:0.01em;
+  }
+  .navlinks{
+    display:flex;
+    gap:36px;
+    font-size:0.95rem;
+    color:var(--ink-soft);
+  }
+  .navlinks a{
+    position:relative;
+    padding-bottom:4px;
+    transition:color 0.15s ease;
+  }
+  .navlinks a:hover{color:var(--ink);}
+  .navlinks a::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:1px;
+    background:var(--accent);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.2s ease;
+  }
+  .navlinks a:hover::after{transform:scaleX(1);}
+
+  .navtoggle{display:none; background:none; border:0; cursor:pointer; padding:8px;}
+  .navtoggle span, .navtoggle span::before, .navtoggle span::after{
+    content:'';
+    display:block;
+    width:22px; height:1.5px;
+    background:var(--ink);
+    position:relative;
+  }
+  .navtoggle span::before{position:absolute; top:-7px;}
+  .navtoggle span::after{position:absolute; top:7px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 72px;
+    border-bottom:1px solid var(--line);
+    opacity:0;
+    animation:rise 0.7s ease forwards;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    line-height:1.02;
+    max-width:14ch;
+  }
+  .hero p{
+    margin-top:22px;
+    max-width:46ch;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- FEATURED ---------- */
+  .featured{
+    padding:64px 0 0;
+  }
+  .featured-tile{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/8.2;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid var(--line);
+  }
+  .featured-caption{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-top:14px;
+    font-size:0.9rem;
+    color:var(--ink-soft);
+  }
+  .featured-caption .t{color:var(--ink); font-family:'Fraunces', serif; font-size:1.05rem;}
+
+  /* ---------- GALLERY GRID ---------- */
+  .work{
+    padding:88px 0 100px;
+  }
+  .work-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:36px;
+    gap:24px;
+  }
+  .work-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:1.9rem;
+  }
+  .work-count{color:var(--ink-soft); font-size:0.9rem;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(6, 1fr);
+    gap:24px;
+  }
+  .tile{
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    border:1px solid var(--line);
+    background:var(--paper);
+  }
+  .tile .art{
+    width:100%;
+    height:100%;
+    position:absolute;
+    inset:0;
+    transition:transform 0.5s cubic-bezier(.2,.7,.2,1);
+  }
+  .tile:hover .art{transform:scale(1.035);}
+  .tile-inner{aspect-ratio:1/1; position:relative;}
+
+  .tile .meta{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:14px 16px;
+    background:linear-gradient(180deg, rgba(20,19,15,0) 0%, rgba(20,19,15,0.55) 100%);
+    color:#F6F5F1;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.2s ease, transform 0.2s ease;
+  }
+  .tile:hover .meta, .tile:focus-visible .meta{opacity:1; transform:translateY(0);}
+  .meta .t{font-family:'Fraunces', serif; font-size:1rem;}
+  .meta .s{font-size:0.78rem; opacity:0.85; margin-top:2px;}
+
+  /* span variations for an asymmetric feel */
+  .tile.c1{grid-column:span 3;}
+  .tile.c2{grid-column:span 2;}
+  .tile.c3{grid-column:span 3;}
+  .tile.c4{grid-column:span 2; grid-row:span 2;}
+  .tile.c4 .tile-inner{aspect-ratio:auto; height:100%; min-height:100%;}
+  .tile.c5{grid-column:span 2;}
+  .tile.c6{grid-column:span 4;}
+  .tile.c7{grid-column:span 2;}
+  .tile.c8{grid-column:span 3;}
+  .tile.c9{grid-column:span 3;}
+
+  /* placeholder art gradients */
+  .g-clay{background:
+    radial-gradient(120% 140% at 20% 20%, #C97A5F 0%, transparent 55%),
+    radial-gradient(120% 140% at 80% 85%, #8E4A34 0%, transparent 55%),
+    var(--clay);}
+  .g-sage{background:
+    radial-gradient(120% 140% at 75% 15%, #9AA98D 0%, transparent 55%),
+    radial-gradient(120% 140% at 15% 90%, #566149 0%, transparent 55%),
+    var(--sage);}
+  .g-ochre{background:
+    radial-gradient(120% 140% at 25% 80%, #E0BE4C 0%, transparent 55%),
+    radial-gradient(120% 140% at 85% 10%, #97781A 0%, transparent 55%),
+    var(--ochre);}
+  .g-dusty{background:
+    radial-gradient(120% 140% at 80% 20%, #83A2C2 0%, transparent 55%),
+    radial-gradient(120% 140% at 15% 85%, #3D5771 0%, transparent 55%),
+    var(--dusty);}
+  .g-plum{background:
+    radial-gradient(120% 140% at 20% 15%, #8C6A8F 0%, transparent 55%),
+    radial-gradient(120% 140% at 85% 90%, #4A3550 0%, transparent 55%),
+    var(--plum);}
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    border-top:1px solid var(--line);
+    padding:88px 0;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:64px;
+  }
+  .about h2{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:1.9rem;
+    margin-bottom:22px;
+  }
+  .about p{color:var(--ink-soft); margin-bottom:16px; max-width:52ch;}
+  .about-portrait{
+    aspect-ratio:4/5;
+    border:1px solid var(--line);
+  }
+  .about-facts{margin-top:28px;}
+  .about-facts dt{font-size:0.8rem; color:var(--ink-soft); margin-top:14px;}
+  .about-facts dd{font-family:'Fraunces', serif; font-size:1.05rem;}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:64px 0 40px;
+  }
+  .contact-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  footer h2{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:2.2rem;
+    max-width:16ch;
+  }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    text-align:right;
+    font-size:0.98rem;
+  }
+  .contact-links a{color:var(--ink-soft); transition:color 0.15s ease;}
+  .contact-links a:hover{color:var(--accent);}
+  .foot-bottom{
+    margin-top:56px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(20,19,15,0.94);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:48px 24px;
+  }
+  .lightbox.open{display:flex;}
+  .lb-content{
+    max-width:1000px;
+    width:100%;
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:40px;
+    align-items:center;
+  }
+  .lb-art{
+    aspect-ratio:4/5;
+    width:100%;
+  }
+  .lb-info{color:#F6F5F1;}
+  .lb-info .t{font-family:'Fraunces', serif; font-size:1.6rem;}
+  .lb-info .s{color:#C9C4B8; margin-top:6px; font-size:0.95rem;}
+  .lb-info .d{margin-top:20px; color:#D9D5C9; font-size:0.92rem; max-width:38ch;}
+  .lb-close, .lb-prev, .lb-next{
+    position:absolute;
+    background:none;
+    border:1px solid rgba(246,245,241,0.3);
+    color:#F6F5F1;
+    cursor:pointer;
+    width:42px; height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    transition:background 0.15s ease;
+  }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover{background:rgba(246,245,241,0.12);}
+  .lb-close{top:24px; right:24px;}
+  .lb-prev{left:24px; top:50%; transform:translateY(-50%);}
+  .lb-next{right:24px; top:50%; transform:translateY(-50%);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .navlinks{
+      position:fixed;
+      top:76px; left:0; right:0;
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      flex-direction:column;
+      gap:0;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height 0.25s ease;
+    }
+    .navlinks.open{max-height:240px;}
+    .navlinks a{padding:16px 32px; width:100%; border-top:1px solid var(--line);}
+    .navtoggle{display:block;}
+
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .tile.c1,.tile.c2,.tile.c3,.tile.c4,.tile.c5,.tile.c6,.tile.c7,.tile.c8,.tile.c9{
+      grid-column:span 1; grid-row:span 1;
+    }
+    .tile.c4 .tile-inner{aspect-ratio:1/1; height:auto;}
+
+    .about{grid-template-columns:1fr; gap:36px;}
+    .about-portrait{max-width:280px;}
+
+    .contact-row{flex-direction:column; align-items:flex-start;}
+    .contact-links{text-align:left;}
+
+    .lb-content{grid-template-columns:1fr; gap:20px;}
+    .lb-prev, .lb-next{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand">Your Name</a>
+    <button class="navtoggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span></button>
+    <div class="navlinks" id="navLinks">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Painting the quiet weight of ordinary things.</h1>
+      <p>Your Name is a painter working in oil and mixed media, based in [City, Country]. This site collects a rotating selection of recent and past work.</p>
+    </div>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="featured">
+    <div class="wrap">
+      <div class="featured-tile g-dusty" data-index="0" role="button" tabindex="0" aria-label="Open Held Light, 2025">
+      </div>
+      <div class="featured-caption">
+        <span class="t">Held Light</span>
+        <span>Oil on canvas — 2025 — 120 × 90 cm</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK GRID -->
+  <section class="work" id="work">
+    <div class="wrap">
+      <div class="work-head">
+        <h2>Selected works</h2>
+        <span class="work-count">9 pieces, 2022–2025</span>
+      </div>
+
+      <div class="grid" id="grid">
+        <!-- tiles injected by script, see WORKS array -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap" style="display:contents;">
+      <div>
+        <h2>About</h2>
+        <p>Replace this paragraph with a short artist statement — what draws you to the subjects you paint, the materials you favor, and how your work has developed over time. Two or three tight paragraphs read better than a long biography.</p>
+        <p>Mention formative training, notable exhibitions, residencies, or collections here. Keep it factual and specific rather than promotional.</p>
+        <dl class="about-facts">
+          <dt>Based in</dt>
+          <dd>[City, Country]</dd>
+          <dt>Medium</dt>
+          <dd>Oil, ink, mixed media on canvas &amp; paper</dd>
+          <dt>Exhibitions</dt>
+          <dd>[Gallery name, City, Year]</dd>
+        </dl>
+      </div>
+      <div class="about-portrait g-sage"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTACT / FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-row">
+      <h2>Interested in a piece, a commission, or a studio visit?</h2>
+      <div class="contact-links">
+        <a href="mailto:hello@yourname.com">hello@yourname.com</a>
+        <a href="#">Instagram</a>
+        <a href="#">Newsletter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Your Name</span>
+      <span>Site built with care</span>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Artwork detail">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lb-prev" id="lbPrev" aria-label="Previous piece">←</button>
+  <button class="lb-next" id="lbNext" aria-label="Next piece">→</button>
+  <div class="lb-content">
+    <div class="lb-art" id="lbArt"></div>
+    <div class="lb-info">
+      <div class="t" id="lbTitle"></div>
+      <div class="s" id="lbSub"></div>
+      <div class="d" id="lbDesc"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- Replace this array with your real works. ----
+  // gridClass controls tile size in the grid (c1..c9 defined in CSS).
+  const WORKS = [
+    { title:"Held Light",        medium:"Oil on canvas",      year:"2025", size:"120 × 90 cm",  tone:"g-dusty", gridClass:"c1", desc:"Placeholder description — swap in your own artist notes for this piece." },
+    { title:"Low Field",         medium:"Oil on panel",       year:"2024", size:"60 × 60 cm",   tone:"g-sage",  gridClass:"c2", desc:"Placeholder description." },
+    { title:"Interior, Evening", medium:"Oil on canvas",      year:"2024", size:"90 × 70 cm",   tone:"g-clay",  gridClass:"c4", desc:"Placeholder description." },
+    { title:"Still Water I",     medium:"Ink and wash",       year:"2023", size:"40 × 50 cm",   tone:"g-ochre", gridClass:"c5", desc:"Placeholder description." },
+    { title:"Marginal Light",    medium:"Oil on canvas",      year:"2023", size:"100 × 80 cm",  tone:"g-plum",  gridClass:"c6", desc:"Placeholder description." },
+    { title:"Still Water II",    medium:"Ink and wash",       year:"2023", size:"40 × 50 cm",   tone:"g-dusty", gridClass:"c7", desc:"Placeholder description." },
+    { title:"Threshold",         medium:"Oil on canvas",      year:"2022", size:"110 × 90 cm",  tone:"g-sage",  gridClass:"c8", desc:"Placeholder description." },
+    { title:"Coastal Study",     medium:"Mixed media",        year:"2022", size:"70 × 55 cm",   tone:"g-ochre", gridClass:"c9", desc:"Placeholder description." },
+    { title:"Aftertone",         medium:"Oil on canvas",      year:"2022", size:"85 × 65 cm",   tone:"g-clay",  gridClass:"c3", desc:"Placeholder description." }
+  ];
+
+  const grid = document.getElementById('grid');
+  WORKS.forEach((w, i) => {
+    const tile = document.createElement('div');
+    tile.className = `tile ${w.gridClass}`;
+    tile.setAttribute('role','button');
+    tile.setAttribute('tabindex','0');
+    tile.setAttribute('aria-label', `Open ${w.title}, ${w.year}`);
+    tile.dataset.index = i;
+    tile.innerHTML = `
+      <div class="tile-inner">
+        <div class="art ${w.tone}"></div>
+        <div class="meta">
+          <div class="t">${w.title}</div>
+          <div class="s">${w.medium} — ${w.year}</div>
+        </div>
+      </div>`;
+    grid.appendChild(tile);
+  });
+
+  // ---- Lightbox logic ----
+  const lightbox = document.getElementById('lightbox');
+  const lbArt = document.getElementById('lbArt');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbSub = document.getElementById('lbSub');
+  const lbDesc = document.getElementById('lbDesc');
+  let current = 0;
+
+  function openLB(index){
+    current = index;
+    const w = WORKS[index];
+    lbArt.className = `lb-art ${w.tone}`;
+    lbTitle.textContent = w.title;
+    lbSub.textContent = `${w.medium} — ${w.year} — ${w.size}`;
+    lbDesc.textContent = w.desc;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLB(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function step(dir){
+    current = (current + dir + WORKS.length) % WORKS.length;
+    openLB(current);
+  }
+
+  document.querySelectorAll('.tile').forEach(tile => {
+    tile.addEventListener('click', () => openLB(Number(tile.dataset.index)));
+    tile.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLB(Number(tile.dataset.index)); }
+    });
+  });
+
+  document.querySelector('.featured-tile').addEventListener('click', () => openLB(0));
+  document.querySelector('.featured-tile').addEventListener('keydown', e => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLB(0); }
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLB);
+  document.getElementById('lbPrev').addEventListener('click', () => step(-1));
+  document.getElementById('lbNext').addEventListener('click', () => step(1));
+  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLB(); });
+  document.addEventListener('keydown', e => {
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLB();
+    if(e.key === 'ArrowLeft') step(-1);
+    if(e.key === 'ArrowRight') step(1);
+  });
+
+  // ---- Mobile nav toggle ----
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded','false');
+  }));
+</script>
+
+</body>
+</html>
