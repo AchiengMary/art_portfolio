@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact · Achieng.M</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;500;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body data-page="contact">
+<main><div class="contact"><div><h1 style="font-size:3.2rem;margin:0 0 20px">Get in Touch</h1>
+<p><a id="mail" href="#"></a></p>
+<form id="f" method="POST"><label>Name</label><div class="row"><input name="first" required placeholder="First name"><input name="last" required placeholder="Last name"></div>
+<label>Email</label><input type="email" name="email" required><label>Message</label><textarea name="message" required></textarea>
+<button type="submit">Send</button></form></div>
+<img src="images/contact.jpg" alt="Achieng.M with her art"></div></main>
+<script src="data.js"></script><script src="site.js"></script>
+<script>f.action=SITE.formspree;mail.href='mailto:'+SITE.email;mail.textContent=SITE.email</script>
+</body></html>

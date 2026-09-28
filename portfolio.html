@@ -1,0 +1,11 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio · Achieng.M</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;500;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body data-page="portfolio">
+<main id="out"></main>
+<script src="data.js"></script><script src="site.js"></script>
+<script>
+document.getElementById('out').innerHTML=COLLECTIONS.map(c=>`<section class="collection"><h2>${c.title}</h2><p>${c.description}</p>
+<div class="panel"><div class="grid">${WORKS.filter(w=>w.collection===c.id).map(w=>`<a class="card" href="work.html?id=${w.id}">
+<img src="${w.images[0]}" alt="${w.title}"><div class="cap"><b>${w.title}</b>${w.medium}<br>${w.size}<br>${w.year}</div></a>`).join('')}</div></div></section>`).join('');
+</script></body></html>
